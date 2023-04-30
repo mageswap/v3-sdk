@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.25",
-    "@mageswap/v3-core": "1.0.0",
+    "@mageswap/v3-core": "github:mageswap/v3-core",
     "tsdx": "^0.14.1"
   },
   "engines": {
