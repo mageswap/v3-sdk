@@ -1,5 +1,5 @@
 {
-  "name": "@uniswap/v3-sdk",
+  "name": "@mageswap/v3-sdk",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -11,7 +11,7 @@
   "files": [
     "dist"
   ],
-  "repository": "https://github.com/Uniswap/uniswap-v3-sdk.git",
+  "repository": "https://github.com/mageswap/mageswap-v3-sdk.git",
   "keywords": [
     "uniswap",
     "ethereum"
@@ -26,16 +26,16 @@
   "dependencies": {
     "@ethersproject/abi": "^5.0.12",
     "@ethersproject/solidity": "^5.0.9",
-    "@uniswap/sdk-core": "^3.0.1",
-    "@uniswap/swap-router-contracts": "^1.2.1",
-    "@uniswap/v3-periphery": "^1.1.1",
-    "@uniswap/v3-staker": "1.0.0",
+    "@mageswap/sdk-core": "github:mageswap/sdk-core",
+    "@mageswap/swap-router-contracts": "github:mageswap/swap-router-contracts",
+    "@mageswap/v3-periphery": "github:mageswap/v3-periphery",
+    "@mageswap/v3-staker": "github:mageswap/v3-staker",
     "tiny-invariant": "^1.1.0",
     "tiny-warning": "^1.0.3"
   },
   "devDependencies": {
     "@types/jest": "^24.0.25",
-    "@uniswap/v3-core": "1.0.0",
+    "@mageswap/v3-core": "1.0.0",
     "tsdx": "^0.14.1"
   },
   "engines": {

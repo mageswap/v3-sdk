@@ -1,4 +1,4 @@
-import { Currency, Fraction, Percent, Price, sortedInsert, CurrencyAmount, TradeType, Token } from '@uniswap/sdk-core'
+import { Currency, Fraction, Percent, Price, sortedInsert, CurrencyAmount, TradeType, Token } from '@mageswap/sdk-core'
 import invariant from 'tiny-invariant'
 import { ONE, ZERO } from '../internalConstants'
 import { Pool } from './pool'
@@ -436,11 +436,11 @@ export class Trade<TInput extends Currency, TOutput extends Currency, TTradeType
    * @returns The amount out
    */
   public minimumAmountOut(slippageTolerance: Percent, amountOut = this.outputAmount): CurrencyAmount<TOutput> {
-    invariant(!slippageTolerance.lessThan(ZERO), 'SLIPPAGE_TOLERANCE')
+    invariant(!slippageTolerance.lessThan(ZERO as any), 'SLIPPAGE_TOLERANCE')
     if (this.tradeType === TradeType.EXACT_OUTPUT) {
       return amountOut
     } else {
-      const slippageAdjustedAmountOut = new Fraction(ONE)
+      const slippageAdjustedAmountOut = new Fraction(ONE as any)
         .add(slippageTolerance)
         .invert()
         .multiply(amountOut.quotient).quotient
@@ -454,11 +454,11 @@ export class Trade<TInput extends Currency, TOutput extends Currency, TTradeType
    * @returns The amount in
    */
   public maximumAmountIn(slippageTolerance: Percent, amountIn = this.inputAmount): CurrencyAmount<TInput> {
-    invariant(!slippageTolerance.lessThan(ZERO), 'SLIPPAGE_TOLERANCE')
+    invariant(!slippageTolerance.lessThan(ZERO as any), 'SLIPPAGE_TOLERANCE')
     if (this.tradeType === TradeType.EXACT_INPUT) {
       return amountIn
     } else {
-      const slippageAdjustedAmountIn = new Fraction(ONE).add(slippageTolerance).multiply(amountIn.quotient).quotient
+      const slippageAdjustedAmountIn = new Fraction(ONE as any).add(slippageTolerance).multiply(amountIn.quotient).quotient
       return CurrencyAmount.fromRawAmount(amountIn.currency, slippageAdjustedAmountIn)
     }
   }
@@ -518,7 +518,7 @@ export class Trade<TInput extends Currency, TOutput extends Currency, TTradeType
         ;[amountOut] = await pool.getOutputAmount(amountIn)
       } catch (error) {
         // input too low
-        if (error.isInsufficientInputAmountError) {
+        if ((error as any).isInsufficientInputAmountError) {
           continue
         }
         throw error
@@ -599,7 +599,7 @@ export class Trade<TInput extends Currency, TOutput extends Currency, TTradeType
         ;[amountIn] = await pool.getInputAmount(amountOut)
       } catch (error) {
         // not enough liquidity in this pool
-        if (error.isInsufficientReservesError) {
+        if ((error as any).isInsufficientReservesError) {
           continue
         }
         throw error

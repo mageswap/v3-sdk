@@ -1,12 +1,12 @@
 import { Interface } from '@ethersproject/abi'
-import { BigintIsh, Currency, CurrencyAmount, Percent, TradeType, validateAndParseAddress } from '@uniswap/sdk-core'
+import { BigintIsh, Currency, CurrencyAmount, Percent, TradeType, validateAndParseAddress } from '@mageswap/sdk-core'
 import invariant from 'tiny-invariant'
 import { Trade } from './entities/trade'
 import { ADDRESS_ZERO } from './constants'
 import { PermitOptions, SelfPermit } from './selfPermit'
 import { encodeRouteToPath } from './utils'
 import { MethodParameters, toHex } from './utils/calldata'
-import ISwapRouter from '@uniswap/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json'
+import ISwapRouter from '@mageswap/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json'
 import { Multicall } from './multicall'
 import { FeeOptions, Payments } from './payments'
 
@@ -183,19 +183,19 @@ export abstract class SwapRouter {
     if (routerMustCustody) {
       if (!!options.fee) {
         if (outputIsNative) {
-          calldatas.push(Payments.encodeUnwrapWETH9(totalAmountOut.quotient, recipient, options.fee))
+          calldatas.push(Payments.encodeUnwrapWETH9(totalAmountOut.quotient as any, recipient, options.fee))
         } else {
           calldatas.push(
             Payments.encodeSweepToken(
               sampleTrade.outputAmount.currency.wrapped,
-              totalAmountOut.quotient,
+              totalAmountOut.quotient as any,
               recipient,
               options.fee
             )
           )
         }
       } else {
-        calldatas.push(Payments.encodeUnwrapWETH9(totalAmountOut.quotient, recipient))
+        calldatas.push(Payments.encodeUnwrapWETH9(totalAmountOut.quotient as any, recipient))
       }
     }
 

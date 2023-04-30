@@ -1,4 +1,4 @@
-import { MaxUint256 } from '@uniswap/sdk-core'
+import { MaxUint256 } from '@mageswap/sdk-core'
 import JSBI from 'jsbi'
 import invariant from 'tiny-invariant'
 import { ONE, ZERO, Q96 } from '../internalConstants'
@@ -8,12 +8,12 @@ const MaxUint160 = JSBI.subtract(JSBI.exponentiate(JSBI.BigInt(2), JSBI.BigInt(1
 
 function multiplyIn256(x: JSBI, y: JSBI): JSBI {
   const product = JSBI.multiply(x, y)
-  return JSBI.bitwiseAnd(product, MaxUint256)
+  return JSBI.bitwiseAnd(product, MaxUint256 as any)
 }
 
 function addIn256(x: JSBI, y: JSBI): JSBI {
   const sum = JSBI.add(x, y)
-  return JSBI.bitwiseAnd(sum, MaxUint256)
+  return JSBI.bitwiseAnd(sum, MaxUint256 as any)
 }
 
 export abstract class SqrtPriceMath {

@@ -1,4 +1,4 @@
-import { BigintIsh, MaxUint256, Percent, Price, CurrencyAmount, Token } from '@uniswap/sdk-core'
+import { BigintIsh, MaxUint256, Percent, Price, CurrencyAmount, Token } from '@mageswap/sdk-core'
 import JSBI from 'jsbi'
 import invariant from 'tiny-invariant'
 import { ZERO } from '../internalConstants'
@@ -71,24 +71,24 @@ export class Position {
         this._token0Amount = CurrencyAmount.fromRawAmount(
           this.pool.token0,
           SqrtPriceMath.getAmount0Delta(
-            TickMath.getSqrtRatioAtTick(this.tickLower),
-            TickMath.getSqrtRatioAtTick(this.tickUpper),
-            this.liquidity,
+            TickMath.getSqrtRatioAtTick(this.tickLower) as any,
+            TickMath.getSqrtRatioAtTick(this.tickUpper) as any,
+            this.liquidity as any,
             false
-          )
+          ) as any
         )
       } else if (this.pool.tickCurrent < this.tickUpper) {
         this._token0Amount = CurrencyAmount.fromRawAmount(
           this.pool.token0,
           SqrtPriceMath.getAmount0Delta(
-            this.pool.sqrtRatioX96,
+            this.pool.sqrtRatioX96 as any,
             TickMath.getSqrtRatioAtTick(this.tickUpper),
-            this.liquidity,
+            this.liquidity as any,
             false
-          )
+          ) as any
         )
       } else {
-        this._token0Amount = CurrencyAmount.fromRawAmount(this.pool.token0, ZERO)
+        this._token0Amount = CurrencyAmount.fromRawAmount(this.pool.token0, ZERO as any)
       }
     }
     return this._token0Amount
@@ -100,7 +100,7 @@ export class Position {
   public get amount1(): CurrencyAmount<Token> {
     if (this._token1Amount === null) {
       if (this.pool.tickCurrent < this.tickLower) {
-        this._token1Amount = CurrencyAmount.fromRawAmount(this.pool.token1, ZERO)
+        this._token1Amount = CurrencyAmount.fromRawAmount(this.pool.token1, ZERO as any)
       } else if (this.pool.tickCurrent < this.tickUpper) {
         this._token1Amount = CurrencyAmount.fromRawAmount(
           this.pool.token1,
@@ -109,7 +109,7 @@ export class Position {
             this.pool.sqrtRatioX96,
             this.liquidity,
             false
-          )
+          ) as any
         )
       } else {
         this._token1Amount = CurrencyAmount.fromRawAmount(
@@ -119,7 +119,7 @@ export class Position {
             TickMath.getSqrtRatioAtTick(this.tickUpper),
             this.liquidity,
             false
-          )
+          ) as any
         )
       }
     }
@@ -163,7 +163,7 @@ export class Position {
       this.pool.token0,
       this.pool.token1,
       this.pool.fee,
-      sqrtRatioX96Lower,
+      sqrtRatioX96Lower as any,
       0 /* liquidity doesn't matter */,
       TickMath.getTickAtSqrtRatio(sqrtRatioX96Lower)
     )
@@ -171,17 +171,17 @@ export class Position {
       this.pool.token0,
       this.pool.token1,
       this.pool.fee,
-      sqrtRatioX96Upper,
+      sqrtRatioX96Upper as any,
       0 /* liquidity doesn't matter */,
       TickMath.getTickAtSqrtRatio(sqrtRatioX96Upper)
     )
 
     // because the router is imprecise, we need to calculate the position that will be created (assuming no slippage)
     const positionThatWillBeCreated = Position.fromAmounts({
-      pool: this.pool,
-      tickLower: this.tickLower,
-      tickUpper: this.tickUpper,
-      ...this.mintAmounts, // the mint amounts are what will be passed as calldata
+      pool: this.pool as any,
+      tickLower: this.tickLower as any,
+      tickUpper: this.tickUpper as any,
+      ...this.mintAmounts as any, // the mint amounts are what will be passed as calldata
       useFullPrecision: false
     })
 
@@ -189,14 +189,14 @@ export class Position {
     // ...which occurs at the upper price for amount0...
     const { amount0 } = new Position({
       pool: poolUpper,
-      liquidity: positionThatWillBeCreated.liquidity,
+      liquidity: positionThatWillBeCreated.liquidity as any,
       tickLower: this.tickLower,
       tickUpper: this.tickUpper
     }).mintAmounts
     // ...and the lower for amount1
     const { amount1 } = new Position({
       pool: poolLower,
-      liquidity: positionThatWillBeCreated.liquidity,
+      liquidity: positionThatWillBeCreated.liquidity as any,
       tickLower: this.tickLower,
       tickUpper: this.tickUpper
     }).mintAmounts
@@ -219,7 +219,7 @@ export class Position {
       this.pool.token0,
       this.pool.token1,
       this.pool.fee,
-      sqrtRatioX96Lower,
+      sqrtRatioX96Lower as any,
       0 /* liquidity doesn't matter */,
       TickMath.getTickAtSqrtRatio(sqrtRatioX96Lower)
     )
@@ -227,7 +227,7 @@ export class Position {
       this.pool.token0,
       this.pool.token1,
       this.pool.fee,
-      sqrtRatioX96Upper,
+      sqrtRatioX96Upper as any,
       0 /* liquidity doesn't matter */,
       TickMath.getTickAtSqrtRatio(sqrtRatioX96Upper)
     )
@@ -236,19 +236,19 @@ export class Position {
     // ...which occurs at the upper price for amount0...
     const amount0 = new Position({
       pool: poolUpper,
-      liquidity: this.liquidity,
+      liquidity: this.liquidity as any,
       tickLower: this.tickLower,
       tickUpper: this.tickUpper
     }).amount0
     // ...and the lower for amount1
     const amount1 = new Position({
       pool: poolLower,
-      liquidity: this.liquidity,
+      liquidity: this.liquidity as any,
       tickLower: this.tickLower,
       tickUpper: this.tickUpper
     }).amount1
 
-    return { amount0: amount0.quotient, amount1: amount1.quotient }
+    return { amount0: amount0.quotient as any, amount1: amount1.quotient  as any}
   }
 
   /**
@@ -337,7 +337,7 @@ export class Position {
         amount0,
         amount1,
         useFullPrecision
-      )
+      ) as any
     })
   }
 

@@ -1,4 +1,4 @@
-import { Price, Token } from '@uniswap/sdk-core'
+import { Price, Token } from '@mageswap/sdk-core'
 import JSBI from 'jsbi'
 import { Q192 } from '../internalConstants'
 import { encodeSqrtRatioX96 } from './encodeSqrtRatioX96'
@@ -17,8 +17,8 @@ export function tickToPrice(baseToken: Token, quoteToken: Token, tick: number): 
   const ratioX192 = JSBI.multiply(sqrtRatioX96, sqrtRatioX96)
 
   return baseToken.sortsBefore(quoteToken)
-    ? new Price(baseToken, quoteToken, Q192, ratioX192)
-    : new Price(baseToken, quoteToken, ratioX192, Q192)
+    ? new Price(baseToken as any, quoteToken as any, Q192 as any, ratioX192 as any)
+    : new Price(baseToken as any, quoteToken as any, ratioX192 as any, Q192 as any)
 }
 
 /**

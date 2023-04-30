@@ -1,7 +1,7 @@
 import JSBI from 'jsbi'
 import { Interface } from '@ethersproject/abi'
-import IPeripheryPaymentsWithFee from '@uniswap/v3-periphery/artifacts/contracts/interfaces/IPeripheryPaymentsWithFee.sol/IPeripheryPaymentsWithFee.json'
-import { Percent, Token, validateAndParseAddress } from '@uniswap/sdk-core'
+import IPeripheryPaymentsWithFee from '@mageswap/v3-periphery/artifacts/contracts/interfaces/IPeripheryPaymentsWithFee.sol/IPeripheryPaymentsWithFee.json'
+import { Percent, Token, validateAndParseAddress } from '@mageswap/sdk-core'
 import { toHex } from './utils/calldata'
 
 export interface FeeOptions {
@@ -36,13 +36,13 @@ export abstract class Payments {
       const feeRecipient: string = validateAndParseAddress(feeOptions.recipient)
 
       return Payments.INTERFACE.encodeFunctionData('unwrapWETH9WithFee', [
-        toHex(amountMinimum),
+        toHex(amountMinimum as any),
         recipient,
         feeBips,
         feeRecipient
       ])
     } else {
-      return Payments.INTERFACE.encodeFunctionData('unwrapWETH9', [toHex(amountMinimum), recipient])
+      return Payments.INTERFACE.encodeFunctionData('unwrapWETH9', [toHex(amountMinimum as any), recipient])
     }
   }
 
@@ -60,13 +60,13 @@ export abstract class Payments {
 
       return Payments.INTERFACE.encodeFunctionData('sweepTokenWithFee', [
         token.address,
-        toHex(amountMinimum),
+        toHex(amountMinimum as any),
         recipient,
         feeBips,
         feeRecipient
       ])
     } else {
-      return Payments.INTERFACE.encodeFunctionData('sweepToken', [token.address, toHex(amountMinimum), recipient])
+      return Payments.INTERFACE.encodeFunctionData('sweepToken', [token.address, toHex(amountMinimum as any), recipient])
     }
   }
 

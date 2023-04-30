@@ -6,21 +6,21 @@ import {
   validateAndParseAddress,
   Currency,
   NativeCurrency
-} from '@uniswap/sdk-core'
+} from '@mageswap/sdk-core'
 import JSBI from 'jsbi'
 import invariant from 'tiny-invariant'
 import { Position } from './entities/position'
 import { ONE, ZERO } from './internalConstants'
 import { MethodParameters, toHex } from './utils/calldata'
 import { Interface } from '@ethersproject/abi'
-import INonfungiblePositionManager from '@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
+import INonfungiblePositionManager from '@mageswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
 import { PermitOptions, SelfPermit } from './selfPermit'
 import { ADDRESS_ZERO } from './constants'
 import { Pool } from './entities'
 import { Multicall } from './multicall'
 import { Payments } from './payments'
 
-const MaxUint128 = toHex(JSBI.subtract(JSBI.exponentiate(JSBI.BigInt(2), JSBI.BigInt(128)), JSBI.BigInt(1)))
+const MaxUint128 = toHex(JSBI.subtract(JSBI.exponentiate(JSBI.BigInt(2), JSBI.BigInt(128)), JSBI.BigInt(1) ) as any)
 
 export interface MintSpecificOptions {
   /**
@@ -185,7 +185,7 @@ export abstract class NonfungiblePositionManager {
       pool.token0.address,
       pool.token1.address,
       pool.fee,
-      toHex(pool.sqrtRatioX96)
+      toHex(pool.sqrtRatioX96 as any)
     ])
   }
 
@@ -206,8 +206,8 @@ export abstract class NonfungiblePositionManager {
 
     // adjust for slippage
     const minimumAmounts = position.mintAmountsWithSlippage(options.slippageTolerance)
-    const amount0Min = toHex(minimumAmounts.amount0)
-    const amount1Min = toHex(minimumAmounts.amount1)
+    const amount0Min = toHex(minimumAmounts.amount0 as any)
+    const amount1Min = toHex(minimumAmounts.amount1 as any)
 
     const deadline = toHex(options.deadline)
 
@@ -236,8 +236,8 @@ export abstract class NonfungiblePositionManager {
             fee: position.pool.fee,
             tickLower: position.tickLower,
             tickUpper: position.tickUpper,
-            amount0Desired: toHex(amount0Desired),
-            amount1Desired: toHex(amount1Desired),
+            amount0Desired: toHex(amount0Desired as any),
+            amount1Desired: toHex(amount1Desired as any),
             amount0Min,
             amount1Min,
             recipient,
@@ -251,8 +251,8 @@ export abstract class NonfungiblePositionManager {
         NonfungiblePositionManager.INTERFACE.encodeFunctionData('increaseLiquidity', [
           {
             tokenId: toHex(options.tokenId),
-            amount0Desired: toHex(amount0Desired),
-            amount1Desired: toHex(amount1Desired),
+            amount0Desired: toHex(amount0Desired as any),
+            amount1Desired: toHex(amount1Desired as any),
             amount0Min,
             amount1Min,
             deadline
@@ -274,7 +274,7 @@ export abstract class NonfungiblePositionManager {
         calldatas.push(Payments.encodeRefundETH())
       }
 
-      value = toHex(wrappedValue)
+      value = toHex(wrappedValue as any)
     }
 
     return {
@@ -316,8 +316,8 @@ export abstract class NonfungiblePositionManager {
         ? options.expectedCurrencyOwed1.quotient
         : options.expectedCurrencyOwed0.quotient
 
-      calldatas.push(Payments.encodeUnwrapWETH9(ethAmount, recipient))
-      calldatas.push(Payments.encodeSweepToken(token, tokenAmount, recipient))
+      calldatas.push(Payments.encodeUnwrapWETH9(ethAmount as any, recipient))
+      calldatas.push(Payments.encodeSweepToken(token, tokenAmount as any, recipient))
     }
 
     return calldatas
@@ -347,7 +347,7 @@ export abstract class NonfungiblePositionManager {
     // construct a partial position with a percentage of liquidity
     const partialPosition = new Position({
       pool: position.pool,
-      liquidity: options.liquidityPercentage.multiply(position.liquidity).quotient,
+      liquidity: options.liquidityPercentage.multiply(position.liquidity as any).quotient,
       tickLower: position.tickLower,
       tickUpper: position.tickUpper
     })
@@ -376,9 +376,9 @@ export abstract class NonfungiblePositionManager {
       NonfungiblePositionManager.INTERFACE.encodeFunctionData('decreaseLiquidity', [
         {
           tokenId,
-          liquidity: toHex(partialPosition.liquidity),
-          amount0Min: toHex(amount0Min),
-          amount1Min: toHex(amount1Min),
+          liquidity: toHex(partialPosition.liquidity as any),
+          amount0Min: toHex(amount0Min as any),
+          amount1Min: toHex(amount1Min as any),
           deadline
         }
       ])
@@ -390,16 +390,16 @@ export abstract class NonfungiblePositionManager {
         tokenId: toHex(options.tokenId),
         // add the underlying value to the expected currency already owed
         expectedCurrencyOwed0: expectedCurrencyOwed0.add(
-          CurrencyAmount.fromRawAmount(expectedCurrencyOwed0.currency, amount0Min)
+          CurrencyAmount.fromRawAmount(expectedCurrencyOwed0.currency, amount0Min as any)
         ),
         expectedCurrencyOwed1: expectedCurrencyOwed1.add(
-          CurrencyAmount.fromRawAmount(expectedCurrencyOwed1.currency, amount1Min)
+          CurrencyAmount.fromRawAmount(expectedCurrencyOwed1.currency, amount1Min as any)
         ),
         ...rest
       })
     )
 
-    if (options.liquidityPercentage.equalTo(ONE)) {
+    if (options.liquidityPercentage.equalTo(ONE as any)) {
       if (options.burnToken) {
         calldatas.push(NonfungiblePositionManager.INTERFACE.encodeFunctionData('burn', [tokenId]))
       }

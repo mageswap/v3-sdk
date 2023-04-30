@@ -1,4 +1,4 @@
-import { BigintIsh, CurrencyAmount, Price, Token } from '@uniswap/sdk-core'
+import { BigintIsh, CurrencyAmount, Price, Token } from '@mageswap/sdk-core'
 import JSBI from 'jsbi'
 import invariant from 'tiny-invariant'
 import { FACTORY_ADDRESS, FeeAmount, TICK_SPACINGS } from '../constants'
@@ -110,10 +110,10 @@ export class Pool {
     return (
       this._token0Price ??
       (this._token0Price = new Price(
-        this.token0,
-        this.token1,
-        Q192,
-        JSBI.multiply(this.sqrtRatioX96, this.sqrtRatioX96)
+        this.token0 as any,
+        this.token1 as any,
+        Q192 as any,
+        JSBI.multiply(this.sqrtRatioX96 as any, this.sqrtRatioX96 as any) as any
       ))
     )
   }
@@ -125,10 +125,10 @@ export class Pool {
     return (
       this._token1Price ??
       (this._token1Price = new Price(
-        this.token1,
-        this.token0,
-        JSBI.multiply(this.sqrtRatioX96, this.sqrtRatioX96),
-        Q192
+        this.token1 as any,
+        this.token0 as any,
+        JSBI.multiply(this.sqrtRatioX96, this.sqrtRatioX96) as any,
+        Q192 as any
       ))
     )
   }
@@ -166,13 +166,13 @@ export class Pool {
 
     const { amountCalculated: outputAmount, sqrtRatioX96, liquidity, tickCurrent } = await this.swap(
       zeroForOne,
-      inputAmount.quotient,
+      inputAmount.quotient as any,
       sqrtPriceLimitX96
     )
     const outputToken = zeroForOne ? this.token1 : this.token0
     return [
-      CurrencyAmount.fromRawAmount(outputToken, JSBI.multiply(outputAmount, NEGATIVE_ONE)),
-      new Pool(this.token0, this.token1, this.fee, sqrtRatioX96, liquidity, tickCurrent, this.tickDataProvider)
+      CurrencyAmount.fromRawAmount(outputToken, JSBI.multiply(outputAmount, NEGATIVE_ONE) as any),
+      new Pool(this.token0, this.token1, this.fee, sqrtRatioX96 as any, liquidity as any, tickCurrent, this.tickDataProvider)
     ]
   }
 
@@ -192,13 +192,13 @@ export class Pool {
 
     const { amountCalculated: inputAmount, sqrtRatioX96, liquidity, tickCurrent } = await this.swap(
       zeroForOne,
-      JSBI.multiply(outputAmount.quotient, NEGATIVE_ONE),
+      JSBI.multiply(outputAmount.quotient as any, NEGATIVE_ONE),
       sqrtPriceLimitX96
     )
     const inputToken = zeroForOne ? this.token0 : this.token1
     return [
-      CurrencyAmount.fromRawAmount(inputToken, inputAmount),
-      new Pool(this.token0, this.token1, this.fee, sqrtRatioX96, liquidity, tickCurrent, this.tickDataProvider)
+      CurrencyAmount.fromRawAmount(inputToken, inputAmount as any),
+      new Pool(this.token0, this.token1, this.fee, sqrtRatioX96 as any, liquidity as any, tickCurrent, this.tickDataProvider)
     ]
   }
 

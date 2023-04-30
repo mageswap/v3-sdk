@@ -1,4 +1,4 @@
-import { MaxUint256 } from '@uniswap/sdk-core'
+import { MaxUint256 } from '@mageswap/sdk-core'
 import JSBI from 'jsbi'
 import invariant from 'tiny-invariant'
 import { ONE, ZERO } from '../internalConstants'
@@ -66,7 +66,7 @@ export abstract class TickMath {
     if ((absTick & 0x40000) != 0) ratio = mulShift(ratio, '0x2216e584f5fa1ea926041bedfe98')
     if ((absTick & 0x80000) != 0) ratio = mulShift(ratio, '0x48a170391f7dc42444e8fa2')
 
-    if (tick > 0) ratio = JSBI.divide(MaxUint256, ratio)
+    if (tick > 0) ratio = JSBI.divide(MaxUint256 as any, ratio)
 
     // back to Q96
     return JSBI.greaterThan(JSBI.remainder(ratio, Q32), ZERO)

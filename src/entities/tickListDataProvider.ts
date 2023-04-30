@@ -1,4 +1,4 @@
-import { BigintIsh } from '@uniswap/sdk-core'
+import { BigintIsh } from '@mageswap/sdk-core'
 import { TickList } from '../utils/tickList'
 import { Tick, TickConstructorArgs } from './tick'
 import { TickDataProvider } from './tickDataProvider'
@@ -16,7 +16,7 @@ export class TickListDataProvider implements TickDataProvider {
   }
 
   async getTick(tick: number): Promise<{ liquidityNet: BigintIsh; liquidityGross: BigintIsh }> {
-    return TickList.getTick(this.ticks, tick)
+    return TickList.getTick(this.ticks as any, tick as any) as any
   }
 
   async nextInitializedTickWithinOneWord(tick: number, lte: boolean, tickSpacing: number): Promise<[number, boolean]> {
