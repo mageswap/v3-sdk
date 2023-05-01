@@ -1380,7 +1380,7 @@
 
 "@mageswap/sdk-core@github:mageswap/sdk-core":
   version "3.2.2"
-  resolved "https://codeload.github.com/mageswap/sdk-core/tar.gz/60d06dd38199b7d1d2388365183cf76dbc5e27e8"
+  resolved "https://codeload.github.com/mageswap/sdk-core/tar.gz/9707fad01cc7c719f745d2e31df4445923d52801"
   dependencies:
     "@ethersproject/address" "^5.0.2"
     big.js "^5.2.2"
@@ -1391,7 +1391,7 @@
 
 "@mageswap/swap-router-contracts@github:mageswap/swap-router-contracts":
   version "1.3.0"
-  resolved "https://codeload.github.com/mageswap/swap-router-contracts/tar.gz/0c61bfcfa10dd951f139cfa818919ac493b8a5a1"
+  resolved "https://codeload.github.com/mageswap/swap-router-contracts/tar.gz/32f2cac7654f8e88de6c9243d8c4f960229e590f"
   dependencies:
     "@mageswap/v2-core" "github:mageswap/v2-core"
     "@mageswap/v3-core" "github:mageswap/v3-core"
@@ -1402,15 +1402,15 @@
 
 "@mageswap/v2-core@github:mageswap/v2-core":
   version "1.0.1"
-  resolved "https://codeload.github.com/mageswap/v2-core/tar.gz/8387131e069846786a3b725cdcdf0122b6f4ffc3"
+  resolved "https://codeload.github.com/mageswap/v2-core/tar.gz/367727ec6aa4057fb6f02a0822f62b83b65931ae"
 
 "@mageswap/v3-core@github:mageswap/v3-core":
   version "1.0.1"
-  resolved "https://codeload.github.com/mageswap/v3-core/tar.gz/d8b1c635c275d2a9450bd6a78f3fa2484fef73eb"
+  resolved "https://codeload.github.com/mageswap/v3-core/tar.gz/9200ccad8e2c3249ff3771c114bc1ee27fff2195"
 
 "@mageswap/v3-periphery@github:mageswap/v3-periphery":
   version "1.4.3"
-  resolved "https://codeload.github.com/mageswap/v3-periphery/tar.gz/4828d593d836f471305b1bee2c0dba4fdbecb7c3"
+  resolved "https://codeload.github.com/mageswap/v3-periphery/tar.gz/4715749d8cd97db03a3bccfda887688cbacdcff9"
   dependencies:
     "@mageswap/lib" "github:mageswap/lib"
     "@mageswap/v2-core" "github:mageswap/v2-core"
